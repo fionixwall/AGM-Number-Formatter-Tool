@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AG Marketing Number Formatter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: skyblue;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      border: 2px solid skyblue;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: skyblue;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: dodgerblue;
+    }
+
+    .results {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .formatted {
+      color: white;
+      background-color: #10264c;
+      padding: 10px;
+      margin: 5px auto;
+      width: fit-content;
+      border-radius: 5px;
+    }
+
+    a {
+      display: block;
+      color: deepskyblue;
+      margin-top: 30px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #history {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .history-item {
+      color: white;
+      background-color: #003366;
+      padding: 8px;
+      margin: 5px auto;
+      width: fit-content;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>AG Marketing Number Formatter</h1>
+  <input type="text" id="phoneInput" placeholder="Enter phone number..." />
+  <button onclick="formatNumber()">Format</button>
+
+  <div class="results" id="results"></div>
+
+  <a onclick="toggleHistory()">Formatted Numbers History</a>
+  <div id="history"></div>
+
+  <script>
+    const input = document.getElementById('phoneInput');
+    const results = document.getElementById('results');
+    const historyDiv = document.getElementById('history');
+    let formattedHistory = [];
+
+    function formatNumber() {
+      const rawInput = input.value;
+      const digits = rawInput.replace(/\D/g, '');
+
+      if (digits.length === 10) {
+        const formatted = digits;
+        const formattedWithReward = `${formatted} Rewards`;
+
+        results.innerHTML = `
+          <div class="formatted">${formatted}</div>
+          <div class="formatted">${formattedWithReward}</div>
+        `;
+
+        formattedHistory.push(formatted, formattedWithReward);
+        input.value = '';
+      } else {
+        results.innerHTML = `<div class="formatted" style="color: red;">Invalid number. Enter 10 digits.</div>`;
+      }
+    }
+
+    input.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        formatNumber();
+      }
+    });
+
+    function toggleHistory() {
+      if (historyDiv.style.display === "none") {
+        historyDiv.innerHTML = '';
+        formattedHistory.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          div.textContent = item;
+          historyDiv.appendChild(div);
+        });
+        historyDiv.style.display = "block";
+      } else {
+        historyDiv.style.display = "none";
+      }
+    }
+  </script>
